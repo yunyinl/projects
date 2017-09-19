@@ -1,5 +1,5 @@
 # projects
-make public from my private github account the * *individual* * school projects on **my resume** 
+make public from my private github account the  *individual*  school projects on *my resume*
 ###### web_service.js 
 is the Online Shopping Web Service in NodeJS/Express
 ###### MyCompression.java
