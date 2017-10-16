@@ -1,3 +1,29 @@
+
+# Q&A:
+# Q: data structure:  
+# A: each column save as ArrayList (use pandas and numpy to convert to python list)
+# Q: at what index do you think impact happens in this data file? 
+# A: around 870~880. More precisely 875 or 878 based on plotting result
+
+
+
+
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+df = pd.read_csv("latestSwing.csv",header=None)
+df.head(5)
+(df[0].values).tolist() #convert column to numpy array then to python list
+df_for_graph = df.iloc[:,1:7] 
+df_for_graph.plot() #plot whole data except for the timestamp column
+
+df_for_graph1 = df.iloc[870:885,1:7] 
+df_for_graph1.plot() # narrow the range and plot again
+
+
 #base function
 def searchContinuityBase(is_range, data, indexBegin, indexEnd, thresholds, winLength):
     count = 0
