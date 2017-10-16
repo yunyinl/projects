@@ -1,5 +1,5 @@
 #base function
-def searchContinuityBase(is_range, data1, data2, indexBegin, indexEnd, threshold1, threshold2, winLength):
+def searchContinuityBase(is_range, data, indexBegin, indexEnd, thresholds, winLength):
     count = 0
     is_first_index = True
     if is_range:
@@ -19,13 +19,16 @@ def searchContinuityBase(is_range, data1, data2, indexBegin, indexEnd, threshold
     for i in range(start_index,end_index, step):
         
         #condition for criteria choice
-        if data2 is None:
-            if threshold2 is None:
-                criteria = (data1[i] > threshold1)
+        if len(data) == 1:
+            data1 = data[0]
+            if len(thresholds) == 1:
+                criteria = (data1[i] > thresholds[0])
             else:
-                criteria = (data1[i] > threshold1) and (data1[i] < threshold2)
+                criteria = (data1[i] > thresholds[0]) and (data1[i] < thresholds[1])
         else:
-            criteria = (data1[i] > threshold1) and (data2[i] > threshold2)
+            data1 = data[0]
+            data2 = data[1]
+            criteria = (data1[i] > thresholds[0]) and (data2[i] > threshold[1])
 
         #based on condition
         if criteria:
@@ -41,7 +44,7 @@ def searchContinuityBase(is_range, data1, data2, indexBegin, indexEnd, threshold
             is_first_index = True
         if not is_range: 
             if count == winLength:
-                return first_index
+                return [first_index]
         else:
             if count >= winLength:
                 ret.append((last_index - winLength + 1, last_index))
@@ -52,14 +55,14 @@ def searchContinuityBase(is_range, data1, data2, indexBegin, indexEnd, threshold
 
 
 def searchContinuityAboveValue(data, indexBegin, indexEnd, threshold, winLength):
-    return searchContinuityBase(False, data, None, indexBegin, indexEnd, threshold, None, winLength)
+    return searchContinuityBase(False, [data], indexBegin, indexEnd, [threshold], winLength)
 
 def backSearchContinuityWithinRange(data, indexBegin, indexEnd, thresholdLo, thresholdHi, winLength):
-    return searchContinuityBase(False, data, None, indexBegin, indexEnd, thresholdLo, thresholdHi, winLength)
+    return searchContinuityBase(False, [data], indexBegin, indexEnd, [thresholdLo, thresholdHi], winLength)
 
 def searchContinuityAboveValueTwoSignals(data1, data2, indexBegin, indexEnd, threshold1, threshold2, winLength):
-    return searchContinuityBase(False, data1, data2, indexBegin, indexEnd, threshold1, threshold2, winLength)
-
+    return searchContinuityBase(False, [data1, data2], indexBegin, indexEnd, [threshold1, threshold2], winLength)
+                                                                           
 def searchMultiContinuityWithinRange(data, indexBegin, indexEnd, thresholdLo, thresholdHi, winLength):
-    return searchContinuityBase(True, data, None, indexBegin, indexEnd, thresholdLo, thresholdHi, winLength)
+    return searchContinuityBase(True, [data], indexBegin, indexEnd, [thresholdLo, thresholdHi], winLength)
 
